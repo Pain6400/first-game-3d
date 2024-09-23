@@ -9,9 +9,15 @@ size = Vector3(60, 2, 60)
 [node name="main" type="Node"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_rn8jn")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/CollisionShape3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_5supn")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.773862, 0.633354, 0, -0.633354, 0.773862, 0, 23.3657, 0)
+shadow_enabled = true
