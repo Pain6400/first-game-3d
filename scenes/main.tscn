@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://db2q64fueplhe"]
+[gd_scene load_steps=9 format=3 uid="uid://db2q64fueplhe"]
 
 [ext_resource type="PackedScene" uid="uid://2mg2xiug4d81" path="res://scenes/player/player.tscn" id="1_g4cah"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_picgb"]
+[ext_resource type="PackedScene" uid="uid://dirlkyu7xoylv" path="res://scenes/enemies/mob/mob.tscn" id="2_l84xl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rn8jn"]
 size = Vector3(60, 2, 60)
@@ -14,14 +16,16 @@ albedo_color = Color(0.968627, 0.545098, 0, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_n3yxb"]
 material = SubResource("StandardMaterial3D_3ck0k")
 
-[sub_resource type="Curve3D" id="Curve3D_jkjbb"]
+[sub_resource type="Curve3D" id="Curve3D_sq6np"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -16.7821, 0, -15.9568, 0, 0, 0, 0, 0, 0, 13.068, 0, -15.9568, 0, 0, 0, 0, 0, 0, 13.2056, 0, 24.2103, 0, 0, 0, 0, 0, 0, -16.9197, 0, 24.3478, 0, 0, 0, 0, 0, 0, -17, 0, -16),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -16.7402, 0, -16.0622, 0, 0, 0, 0, 0, 0, 13.5509, 0, -15.9137, 0, 0, 0, 0, 0, 0, 13.1055, 0.00012207, 24.1775, 0, 0, 0, 0, 0, 0, -16.4433, 0.00012207, 23.8805, 0, 0, 0, 0, 0, 0, -16.7402, 0, -16.0622),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
 
 [node name="main" type="Node"]
+script = ExtResource("1_picgb")
+mob_scene = ExtResource("2_l84xl")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -70,5 +74,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.99436, 0, 39.1136)
 mesh = SubResource("CylinderMesh_n3yxb")
 skeleton = NodePath("../MeshInstance3D")
 
-[node name="Path3D" type="Path3D" parent="."]
-curve = SubResource("Curve3D_jkjbb")
+[node name="SpawnLocation" type="Path3D" parent="."]
+curve = SubResource("Curve3D_sq6np")
+
+[node name="SpawnPath" type="PathFollow3D" parent="SpawnLocation"]
+transform = Transform3D(-0.00490191, 0, -0.999988, 0, 1, 0, 0.999988, 0, -0.00490191, -16.7402, 0, -16.0622)
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
