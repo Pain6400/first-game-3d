@@ -41,4 +41,9 @@ func _physics_process(delta):
 
 	# Moving the Character
 	velocity = target_velocity
+	
+		# Jumping.
+	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		target_velocity.y = jump_impulse
+		
 	move_and_slide()
