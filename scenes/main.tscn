@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://db2q64fueplhe"]
+[gd_scene load_steps=12 format=3 uid="uid://db2q64fueplhe"]
 
 [ext_resource type="PackedScene" uid="uid://2mg2xiug4d81" path="res://scenes/player/player.tscn" id="1_g4cah"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_picgb"]
 [ext_resource type="PackedScene" uid="uid://dirlkyu7xoylv" path="res://scenes/enemies/mob/mob.tscn" id="2_l84xl"]
+[ext_resource type="FontFile" uid="uid://ywtc8dyp7qfc" path="res://assets/fonts/Montserrat-Medium.ttf" id="4_rg41u"]
+[ext_resource type="Script" path="res://scenes/score_label.gd" id="5_dvpdh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rn8jn"]
 size = Vector3(60, 2, 60)
@@ -22,6 +24,10 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
+
+[sub_resource type="Theme" id="Theme_8q0nd"]
+default_font = ExtResource("4_rg41u")
+default_font_size = 22
 
 [node name="main" type="Node"]
 script = ExtResource("1_picgb")
@@ -85,6 +91,23 @@ transform = Transform3D(-0.00490239, 0, -0.999988, 0, 1, 0, 0.999988, 0, -0.0049
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_8q0nd")
+
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 39.0
+offset_right = 114.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Score: 0"
+script = ExtResource("5_dvpdh")
 
 [connection signal="hit" from="player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
