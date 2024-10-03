@@ -33,8 +33,10 @@ func _physics_process(delta):
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
 		# Setting the basis property will affect the rotation of the node.
-		#$Pivot.basis = Basis.looking_at(direction)
-		
+		$pivot.basis = Basis.looking_at(direction)
+		$AnimationPlayer.speed_scale = 4
+	else:
+		$AnimationPlayer.speed_scale = 1
 		# Ground Velocity
 	target_velocity.x = direction.x * speed
 	target_velocity.z = direction.z * speed
@@ -68,8 +70,9 @@ func _physics_process(delta):
 				mob.squash()
 				target_velocity.y = bounce_impulse
 				# Prevent further duplicate calls.
-				break	
+				break
 	move_and_slide()
+	$pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
 
 
 func _on_mob_detector_body_entered(body: Node3D) -> void:
